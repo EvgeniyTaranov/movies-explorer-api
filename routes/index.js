@@ -17,8 +17,8 @@ const {
 router.post('/signin', signinValidationSchema, login);
 router.post('/signup', signupValidationSchema, createUser);
 router.get('/signout', logout);
-router.use('/usersRouter', userRouter);
-router.use('/moviesRouter', movieRouter);
+router.use('/users', userRouter);
+router.use('/movies', movieRouter);
 router.use('*', (req, res, next) => {
   next(new NotFoundError('Неверный путь'));
 });
