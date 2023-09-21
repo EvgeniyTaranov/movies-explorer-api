@@ -12,10 +12,10 @@ const { PORT = 4000 } = process.env;
 const corsOptions = {
   origin: ['http://localhost:3000',
     'http://localhost:4000',
-    'https://evgeniytaranov.nomoredomainsicu.ru',
-    'http://evgeniytaranov.nomoredomainsicu.ru',
-    'http://evgeniytaranov.nomoredomainsicu.ru',
-    'https://evgeniytaranov.nomoredomainsicu.ru'],
+    'https://evgeniytaranovdiploma.nomoredomainsicu.ru',
+    'http://evgeniytaranovdiploma.nomoredomainsicu.ru',
+    'http://api.evgeniytaranovdiploma.nomoredomainsicu.ru',
+    'https://api.evgeniytaranovdiploma.nomoredomainsicu.ru'],
   credentials: true,
 };
 
