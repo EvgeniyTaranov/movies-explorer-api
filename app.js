@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
+const rateLimit = require('./config/rateLimitConfig');
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const INTERNAL_SERVER_ERROR = 500;
-const { PORT = 4000 } = process.env;
+const { PORT, DATABASE_URL } = process.env;
 
 const corsOptions = {
   origin: ['http://localhost:3000',
@@ -21,6 +23,8 @@ const corsOptions = {
 
 const app = express();
 
+app.use(helmet());
+
 app.use(cookieParser());
 
 app.use(requestLogger);
@@ -28,6 +32,8 @@ app.use(requestLogger);
 app.use(express.json());
 
 app.use(cors(corsOptions));
+
+app.use(rateLimit);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -50,7 +56,7 @@ app.use((err, req, res, next) => {
   next();
 });
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+mongoose.connect(DATABASE_URL, {
   useNewUrlParser: true,
 });
 
