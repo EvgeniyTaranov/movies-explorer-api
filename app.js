@@ -9,7 +9,7 @@ const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const INTERNAL_SERVER_ERROR = 500;
-const { PORT, DATABASE_URL } = process.env;
+const { PORT = 4000, DATABASE_URL } = process.env;
 
 const corsOptions = {
   origin: ['http://localhost:3000',
