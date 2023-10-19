@@ -39,6 +39,7 @@ const movieSchema = new mongoose.Schema({
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
+    res: 'user',
     required: true,
   },
   movieId: {
@@ -56,33 +57,3 @@ const movieSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('movie', movieSchema);
-
-// const cardSchema = new mongoose.Schema({
-//   name: {
-//     type: String,
-//     minlength: 2,
-//     maxlength: 30,
-//     required: true,
-//   },
-//   link: {
-//     type: String,
-//     required: true,
-//     validate: [isURL, 'Некорректный формат ссылки'],
-//   },
-//   owner: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'user',
-//     required: true,
-//   },
-//   likes: [{
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'user',
-//     default: [],
-//   }],
-//   createdAt: {
-//     type: Date,
-//     default: Date.now,
-//   },
-// });
-
-// module.exports = mongoose.model('card', cardSchema);

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const userRouter = require('./usersRouter');
-const movieRouter = require('./moviesRouter');
+const moviesRouter = require('./moviesRouter');
 const NotFoundError = require('../errors/notFoundError');
 
 const {
@@ -18,7 +18,7 @@ router.post('/signin', signinValidationSchema, login);
 router.post('/signup', signupValidationSchema, createUser);
 router.get('/signout', logout);
 router.use('/users', userRouter);
-router.use('/movies', movieRouter);
+router.use('/movies', moviesRouter);
 router.use('*', (req, res, next) => {
   next(new NotFoundError('Неверный путь'));
 });

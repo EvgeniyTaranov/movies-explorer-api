@@ -3,18 +3,18 @@ const auth = require('../middlewares/auth');
 
 const {
   validationMovieInfo,
-  // validationMovieId,
+  validationMovieId,
 } = require('../middlewares/validation');
 
 const {
-  getSavedMovies,
+  getMovies,
   postMovie,
-  // deleteMovie,
+  deleteMovie,
 } = require('../controllers/moviesController');
 
 moviesRouter.use(auth);
-moviesRouter.get('/', getSavedMovies);
+moviesRouter.get('/', getMovies);
 moviesRouter.post('/', validationMovieInfo, postMovie);
-// moviesRouter.delete('/:movieId', validationMovieId, deleteMovie);
+moviesRouter.delete('/:movieId', validationMovieId, deleteMovie);
 
 module.exports = moviesRouter;
