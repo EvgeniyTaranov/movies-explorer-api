@@ -16,7 +16,7 @@ const corsOptions = {
     'http://localhost:4000',
     'https://evgeniytaranovdiploma.nomoredomainsrocks.ru;',
     'http://evgeniytaranovdiploma.nomoredomainsrocks.ru;',
-    'http://api.evgeniytaranovdiploma.nnomoredomainsrocks.ru;',
+    'http://api.evgeniytaranovdiploma.nomoredomainsrocks.ru;',
     'https://api.evgeniytaranovdiploma.nomoredomainsrocks.ru;'],
   credentials: true,
 };

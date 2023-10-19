@@ -6,7 +6,7 @@ const BadRequestError = require('../errors/badRequestError');
 const NotFoundError = require('../errors/notFoundError');
 const ForbiddenError = require('../errors/forbiddenError');
 
-module.exports.getSavedMovies = async (req, res, next) => {
+module.exports.getMovies = async (req, res, next) => {
   try {
     const userId = req.user._id;
     const movies = await Movie.find({ owner: userId });
@@ -28,6 +28,7 @@ module.exports.postMovie = async (req, res, next) => {
     thumbnail,
     nameRU,
     nameEN,
+    movieId,
   } = req.body;
 
   const movieData = {
@@ -41,8 +42,8 @@ module.exports.postMovie = async (req, res, next) => {
     thumbnail,
     nameRU,
     nameEN,
+    movieId,
     owner: req.user._id,
-    movieId: req.movie._id,
   };
 
   try {

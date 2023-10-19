@@ -8,12 +8,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: 'Паулиньо Джеррардо',
+    required: true,
   },
   email: {
     type: String,
     unique: true,
-    require: true,
+    required: true,
     validate: [isEmail, 'Email не валидный'],
   },
   password: {
