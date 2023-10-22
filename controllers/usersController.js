@@ -1,41 +1,54 @@
 const validationError = require('mongoose').Error.ValidationError;
-const castError = require('mongoose').Error.CastError;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const User = require('../models/user');
 const BadRequestError = require('../errors/badRequestError');
-const NotFoundError = require('../errors/notFoundError');
 const ConflictError = require('../errors/conflictError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-module.exports.getUsers = async (req, res, next) => {
-  try {
-    const data = await User.find({});
-    res.send(data);
-  } catch (err) {
-    next(err);
-  }
+module.exports.getUserInfo = (req, res, next) => {
+  User.findById(req.user._id).select('-password')
+    .then(((data) => res.send(data)))
+    .catch(next);
 };
 
-module.exports.getUserById = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const user = await User.findById(id);
-    if (user) {
-      res.send({ data: user });
-    } else {
-      throw new NotFoundError('Пользователь с таким id не существует');
-    }
-  } catch (err) {
-    if (err instanceof castError) {
-      next(new BadRequestError('Передан некорректный id'));
-    } else {
-      next(err);
-    }
-  }
-};
+// module.exports.getUserMe = async (req, res, next) => {
+//   try {
+//     const data = await User.findById(req.user._id);
+//     res.send(data);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+// module.exports.getUsers = async (req, res, next) => {
+//   try {
+//     const data = await User.find({});
+//     res.send(data);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+// module.exports.getUserById = async (req, res, next) => {
+//   const { id } = req.params;
+//   try {
+//     const user = await User.findById(id);
+//     if (user) {
+//       res.send({ data: user });
+//     } else {
+//       throw new NotFoundError('Пользователь с таким id не существует');
+//     }
+//   } catch (err) {
+//     if (err instanceof castError) {
+//       next(new BadRequestError('Передан некорректный id'));
+//     } else {
+//       next(err);
+//     }
+//   }
+// };
 
 module.exports.createUser = async (req, res, next) => {
   const { name, email } = req.body;
@@ -56,30 +69,41 @@ module.exports.createUser = async (req, res, next) => {
   }
 };
 
+// module.exports.updateUser = async (req, res, next) => {
+//   const { name, email } = req.body;
+//   try {
+//     const user = await User.findByIdAndUpdate(
+//       req.user._id,
+//       { name, email },
+//       { new: true, runValidators: true },
+//     );
+//     res.send({ data: user });
+//   } catch (err) {
+//     if (err instanceof validationError) {
+//       next(new BadRequestError('Ошибка при валидации'));
+//     } else {
+//       next(err);
+//     }
+//   }
+// };
+
 module.exports.updateUser = async (req, res, next) => {
-  const { name, email } = req.body;
+  const { email, name } = req.body;
   try {
     const user = await User.findByIdAndUpdate(
       req.user._id,
-      { name, email },
+      { email, name },
       { new: true, runValidators: true },
     );
     res.send({ data: user });
   } catch (err) {
-    if (err instanceof validationError) {
+    if (err.code === 11000) {
+      next(new ConflictError('Данный Email уже используется'));
+    } else if (err instanceof validationError) {
       next(new BadRequestError('Ошибка при валидации'));
     } else {
       next(err);
     }
-  }
-};
-
-module.exports.getUserMe = async (req, res, next) => {
-  try {
-    const data = await User.findById(req.user._id);
-    res.send(data);
-  } catch (err) {
-    next(err);
   }
 };
 

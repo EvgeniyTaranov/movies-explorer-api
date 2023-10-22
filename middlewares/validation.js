@@ -26,7 +26,8 @@ const validateId = (Id) => {
 
 module.exports.validationUserInfo = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
+    email: Joi.string().custom(validateEmail),
+    name: Joi.string().min(2).max(30),
   }),
 });
 
@@ -42,12 +43,6 @@ module.exports.signupValidationSchema = celebrate({
     email: Joi.string().required().custom(validateEmail),
     password: Joi.string().required().min(6),
     name: Joi.string().min(2).max(30),
-  }),
-});
-
-module.exports.validationUserId = celebrate({
-  params: Joi.object().keys({
-    id: Joi.string().required().custom(validateId),
   }),
 });
 
@@ -70,11 +65,5 @@ module.exports.validationMovieInfo = celebrate({
 module.exports.validationMovieId = celebrate({
   params: Joi.object().keys({
     movieId: Joi.string().required().custom(validateId),
-  }),
-});
-
-module.exports.validationCardId = celebrate({
-  params: Joi.object().keys({
-    cardId: Joi.string().required().custom(validateId),
   }),
 });
