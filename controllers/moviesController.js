@@ -8,8 +8,7 @@ const ForbiddenError = require('../errors/forbiddenError');
 
 module.exports.getMovies = async (req, res, next) => {
   try {
-    const userId = req.user._id;
-    const movies = await Movie.find({ owner: userId });
+    const movies = await Movie.find({ owner: req.user._id });
     res.send(movies);
   } catch (err) {
     next(err);
@@ -26,9 +25,9 @@ module.exports.postMovie = async (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
+    movieId,
     nameRU,
     nameEN,
-    movieId,
   } = req.body;
 
   const movieData = {
@@ -40,9 +39,9 @@ module.exports.postMovie = async (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
+    movieId,
     nameRU,
     nameEN,
-    movieId,
     owner: req.user._id,
   };
 
@@ -61,22 +60,17 @@ module.exports.postMovie = async (req, res, next) => {
 // eslint-disable-next-line consistent-return
 module.exports.deleteMovie = async (req, res, next) => {
   const { movieId } = req.params;
-
   try {
-    const movie = await Movie.findById(movieId);
-
-    if (!movie) {
+    const data = await Movie.findById(movieId);
+    if (!data) {
       return next(new NotFoundError('Фильм с таким id не найден'));
     }
-
-    if (!(movie.owner.toString() === req.user._id)) {
+    if (data.owner.toString() !== req.user._id) {
       return next(new ForbiddenError('Вы не можете удалять чужие фильмы'));
     }
-
-    const deletedMovie = await Movie.findByIdAndRemove(movieId);
-
-    if (deletedMovie) {
-      res.send({ message: 'Фильм удален' });
+    const movie = await Movie.findByIdAndRemove(movieId);
+    if (movie) {
+      return res.send({ message: 'Фильм удален' });
     }
   } catch (err) {
     if (err instanceof castError) {
