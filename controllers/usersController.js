@@ -14,42 +14,6 @@ module.exports.getUserInfo = (req, res, next) => {
     .catch(next);
 };
 
-// module.exports.getUserMe = async (req, res, next) => {
-//   try {
-//     const data = await User.findById(req.user._id);
-//     res.send(data);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-// module.exports.getUsers = async (req, res, next) => {
-//   try {
-//     const data = await User.find({});
-//     res.send(data);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-// module.exports.getUserById = async (req, res, next) => {
-//   const { id } = req.params;
-//   try {
-//     const user = await User.findById(id);
-//     if (user) {
-//       res.send({ data: user });
-//     } else {
-//       throw new NotFoundError('Пользователь с таким id не существует');
-//     }
-//   } catch (err) {
-//     if (err instanceof castError) {
-//       next(new BadRequestError('Передан некорректный id'));
-//     } else {
-//       next(err);
-//     }
-//   }
-// };
-
 module.exports.createUser = async (req, res, next) => {
   const { name, email } = req.body;
   try {
@@ -68,24 +32,6 @@ module.exports.createUser = async (req, res, next) => {
     }
   }
 };
-
-// module.exports.updateUser = async (req, res, next) => {
-//   const { name, email } = req.body;
-//   try {
-//     const user = await User.findByIdAndUpdate(
-//       req.user._id,
-//       { name, email },
-//       { new: true, runValidators: true },
-//     );
-//     res.send({ data: user });
-//   } catch (err) {
-//     if (err instanceof validationError) {
-//       next(new BadRequestError('Ошибка при валидации'));
-//     } else {
-//       next(err);
-//     }
-//   }
-// };
 
 module.exports.updateUser = async (req, res, next) => {
   const { email, name } = req.body;
