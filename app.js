@@ -14,10 +14,10 @@ const { PORT, DATABASE_URL } = process.env;
 const corsOptions = {
   origin: ['http://localhost:3000',
     'http://localhost:4000',
-    'https://evgeniytaranovdiploma.nomoredomainsrocks.ru;',
-    'http://evgeniytaranovdiploma.nomoredomainsrocks.ru;',
-    'http://api.evgeniytaranovdiploma.nomoredomainsrocks.ru;',
-    'https://api.evgeniytaranovdiploma.nomoredomainsrocks.ru;'],
+    'https://evgeniytaranovdiploma.nomoredomainsrocks.ru',
+    'http://evgeniytaranovdiploma.nomoredomainsrocks.ru',
+    'http://api.evgeniytaranovdiploma.nomoredomainsrocks.ru',
+    'https://api.evgeniytaranovdiploma.nomoredomainsrocks.ru'],
   credentials: true,
 };
 
